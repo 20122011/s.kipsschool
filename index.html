@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIPS School Hub | Excellence in Education</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Inter & Playfair -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f4ff',
+                            100: '#e0e9ff',
+                            500: '#3b62f6',
+                            600: '#2547eb',
+                            700: '#1d35d8',
+                            900: '#1b2680',
+                        },
+                        pinterest: {
+                            red: '#e60023',
+                            bg: '#f7f7f7',
+                            card: '#ffffff'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Masonry & Aesthetic Utilities */
+        body {
+            background-color: #f6f8fb;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 1.25rem;
+        }
+        @media (min-width: 640px) {
+            .masonry-grid { column-count: 2; }
+        }
+        @media (min-width: 1024px) {
+            .masonry-grid { column-count: 3; }
+        }
+        @media (min-width: 1280px) {
+            .masonry-grid { column-count: 4; }
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Glassmorphism effects */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Pin Hover Visual Depth */
+        .pin-card {
+            transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .pin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Soft Pulse for badges */
+        @keyframes softPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.03); }
+        }
+        .pulse-badge {
+            animation: softPulse 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-slate-200/80 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-3">
+            
+            <!-- Logo & Brand -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-brand-500/30">
+                    K
+                </div>
+                <div>
+                    <span class="font-serif font-extrabold text-xl sm:text-2xl tracking-tight text-slate-900 block leading-none">KIPS</span>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-brand-600 block">School Hub</span>
+                </div>
+            </div>
+
+            <!-- Search Bar (Pinterest Style) -->
+            <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <input type="text" id="searchInput" placeholder="Search events, results, photos, announcements..." 
+                    class="w-full pl-10 pr-4 py-2.5 bg-slate-100 hover:bg-slate-200/70 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-full text-sm transition-all duration-200 border border-transparent focus:border-brand-500">
+            </div>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center gap-1 font-medium text-sm text-slate-600">
+                <a href="#feed" class="px-3.5 py-2 rounded-full hover:bg-slate-100 text-slate-900 font-semibold transition">Explore</a>
+                <a href="#results" class="px-3.5 py-2 rounded-full hover:bg-slate-100 hover:text-slate-900 transition">Results</a>
+                <a href="#highlights" class="px-3.5 py-2 rounded-full hover:bg-slate-100 hover:text-slate-900 transition">Highlights</a>
+                <a href="#contact" class="px-3.5 py-2 rounded-full hover:bg-slate-100 hover:text-slate-900 transition">Contacts</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button onclick="openPortalModal()" class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-900 text-white hover:bg-brand-600 transition duration-200 text-xs sm:text-sm font-semibold shadow-sm">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Student Portal</span>
+                </button>
+
+                <button id="mobileMenuBtn" class="lg:hidden p-2.5 text-slate-600 hover:bg-slate-100 rounded-full focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Search & Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-3">
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <input type="text" id="mobileSearchInput" placeholder="Search Hub..." 
+                    class="w-full pl-9 pr-4 py-2 bg-slate-100 rounded-full text-sm border focus:outline-none focus:ring-2 focus:ring-brand-500">
+            </div>
+            <div class="flex flex-col space-y-1 text-sm font-medium pt-2">
+                <a href="#feed" class="px-3 py-2 rounded-lg hover:bg-slate-100">Explore Pins</a>
+                <a href="#results" class="px-3 py-2 rounded-lg hover:bg-slate-100">Exam Results</a>
+                <a href="#highlights" class="px-3 py-2 rounded-lg hover:bg-slate-100">Highlights & Campus</a>
+                <a href="#contact" class="px-3 py-2 rounded-lg hover:bg-slate-100">Contact Directory</a>
+                <button onclick="openPortalModal()" class="w-full mt-2 py-2.5 bg-brand-600 text-white rounded-xl font-semibold flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-graduation-cap"></i> Student Portal
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Header & Filter Tabs -->
+    <main class="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        
+        <!-- Welcome Banner -->
+        <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-900 via-brand-900 to-indigo-950 text-white mb-10 p-6 sm:p-10 shadow-xl">
+            <div class="absolute right-0 top-0 bottom-0 w-1/2 opacity-20 pointer-events-none hidden md:block" style="background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 16px 16px;"></div>
+            
+            <div class="relative z-10 max-w-2xl">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/30 backdrop-blur-md text-brand-100 text-xs font-semibold mb-4 border border-brand-400/30 pulse-badge">
+                    <i class="fa-solid fa-sparkles text-amber-300"></i> KIPS Digital Campus 2026
+                </span>
+                <h1 class="font-serif text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight text-white mb-4">
+                    Inspiring Minds, Shaping Tomorrow's Leaders.
+                </h1>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
+                    Welcome to the central digital space for KIPS School. Stay updated with real-time announcements, academic performance, campus life galleries, and administrative contacts.
+                </p>
+                <div class="flex flex-wrap gap-3">
+                    <a href="#results" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-medium text-sm rounded-full transition shadow-lg shadow-brand-600/40 inline-flex items-center gap-2">
+                        <i class="fa-solid fa-award"></i> View Results
+                    </a>
+                    <a href="#highlights" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-medium text-sm rounded-full transition border border-white/20 inline-flex items-center gap-2">
+                        <i class="fa-solid fa-images"></i> School Gallery
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Pills Bar (Pinterest Tag Style) -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar scroll-smooth" id="categoryFilterBar">
+            <button data-category="all" class="filter-btn active-filter px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 bg-slate-900 text-white shadow-sm">
+                All Pins
+            </button>
+            <button data-category="announcement" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 bg-white text-slate-600 hover:bg-slate-200/70 border border-slate-200">
+                <i class="fa-solid fa-bullhorn text-amber-500 mr-1.5"></i> Announcements
+            </button>
+            <button data-category="results" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 bg-white text-slate-600 hover:bg-slate-200/70 border border-slate-200">
+                <i class="fa-solid fa-square-poll-vertical text-emerald-500 mr-1.5"></i> Academics & Results
+            </button>
+            <button data-category="event" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 bg-white text-slate-600 hover:bg-slate-200/70 border border-slate-200">
+                <i class="fa-solid fa-calendar-check text-indigo-500 mr-1.5"></i> Events & Sports
+            </button>
+            <button data-category="highlights" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 bg-white text-slate-600 hover:bg-slate-200/70 border border-slate-200">
+                <i class="fa-solid fa-camera text-rose-500 mr-1.5"></i> Campus Life
+            </button>
+            <button data-category="notice" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 bg-white text-slate-600 hover:bg-slate-200/70 border border-slate-200">
+                <i class="fa-solid fa-circle-exclamation text-blue-500 mr-1.5"></i> Important Notices
+            </button>
+        </div>
+
+        <!-- MASONRY PINTEREST GRID FEED -->
+        <section id="feed" class="mb-16">
+            <div id="masonryContainer" class="masonry-grid">
+                <!-- Pin Items will be injected dynamically via JS -->
+            </div>
+        </section>
+
+        <!-- ACADEMIC RESULTS QUICK LOOKUP SECTION -->
+        <section id="results" class="my-16 bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-sm relative overflow-hidden">
+            <div class="max-w-3xl">
+                <span class="text-xs font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-3 py-1 rounded-full">Official Portal</span>
+                <h2 class="font-serif text-2xl sm:text-4xl font-bold text-slate-900 mt-3 mb-2">Examination & Quiz Results</h2>
+                <p class="text-slate-600 text-sm sm:text-base mb-6">Enter student Roll Number to instantly search official KIPS term performance records.</p>
+                
+                <form id="resultsForm" class="flex flex-col sm:flex-row gap-3 mb-6" onsubmit="handleResultSearch(event)">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-id-card absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="rollNumberInput" required placeholder="Enter Roll No. (e.g., KIPS-1082)" 
+                            class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition">
+                    </div>
+                    <button type="submit" class="px-7 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-2xl transition text-sm flex items-center justify-center gap-2 shadow-md shadow-brand-500/20">
+                        <i class="fa-solid fa-magnifying-glass"></i> Check Result
+                    </button>
+                </form>
+
+                <!-- Result Card Output Container -->
+                <div id="resultOutput" class="hidden rounded-2xl p-6 bg-slate-50 border border-slate-200 transition-all">
+                    <!-- Dynamic Result injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT & DIRECTORY SECTION -->
+        <section id="contact" class="my-16">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <span class="text-xs font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-3 py-1 rounded-full">School Directory</span>
+                <h2 class="font-serif text-3xl font-bold text-slate-900 mt-2">Get in Touch with KIPS Administration</h2>
+                <p class="text-slate-500 text-sm mt-1">We are here to answer your queries regarding admissions, academics, and student care.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <!-- Admin Card 1 -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Main Admission Office</h3>
+                    <p class="text-xs text-slate-500 mb-4">For new admissions, prospectus & fee details</p>
+                    <div class="space-y-2 text-sm text-slate-600">
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-phone text-slate-400 w-4"></i> +92 (42) 111-547-788</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-envelope text-slate-400 w-4"></i> admissions@kips.edu.pk</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-clock text-slate-400 w-4"></i> Mon - Sat: 8:00 AM - 4:00 PM</p>
+                    </div>
+                </div>
+
+                <!-- Admin Card 2 -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Academic Coordination</h3>
+                    <p class="text-xs text-slate-500 mb-4">For parent-teacher feedback & class schedules</p>
+                    <div class="space-y-2 text-sm text-slate-600">
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-phone text-slate-400 w-4"></i> +92 (42) 3588-9012</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-envelope text-slate-400 w-4"></i> academics@kips.edu.pk</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-calendar text-slate-400 w-4"></i> Parent Meetings: Saturdays</p>
+                    </div>
+                </div>
+
+                <!-- Admin Card 3 -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Student Support Desk</h3>
+                    <p class="text-xs text-slate-500 mb-4">For portal access, transport & general help</p>
+                    <div class="space-y-2 text-sm text-slate-600">
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-phone text-slate-400 w-4"></i> +92 (42) 3588-9015</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-envelope text-slate-400 w-4"></i> support@kips.edu.pk</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-comments text-slate-400 w-4"></i> 24/7 Portal Ticketing</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Inquiry Form -->
+            <div class="bg-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-xl">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-bold mb-3">Send a Direct Message</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Have questions regarding upcoming tests, school events, or roll number registration? Fill out the quick form and our support desk will respond within 24 hours.
+                        </p>
+                        <div class="flex items-center gap-4 text-slate-400 text-sm">
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Fast Response</span>
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Direct Desk</span>
+                        </div>
+                    </div>
+
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Your Name</label>
+                                <input type="text" required placeholder="John Doe" 
+                                    class="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-500">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Email or Phone</label>
+                                <input type="text" required placeholder="email@example.com" 
+                                    class="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Subject</label>
+                            <input type="text" required placeholder="Admission query / Exam doubt" 
+                                class="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-500">
+                        </div>
+                        <div>
+                            <label class="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">Message</label>
+                            <textarea rows="3" required placeholder="Write your query here..." 
+                                class="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-500 resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl transition text-sm shadow-md">
+                            Submit Inquiry <i class="fa-solid fa-paper-plane ml-1"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white font-bold text-lg">
+                    K
+                </div>
+                <span class="font-serif font-bold text-xl text-white">KIPS School Hub</span>
+            </div>
+
+            <p class="text-xs text-slate-500 text-center">
+                &copy; 2026 KIPS Educational System. All rights reserved. Designed with Pinterest-Inspired Aesthetic.
+            </p>
+
+            <div class="flex items-center gap-4 text-slate-400">
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook text-lg"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram text-lg"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-youtube text-lg"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-twitter text-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PIN DETAIL MODAL (Pinterest Lightbox Style) -->
+    <div id="pinModal" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col md:flex-row relative animate-scaleUp">
+            
+            <!-- Close Modal Button -->
+            <button onclick="closePinModal()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-slate-900/40 hover:bg-slate-900 text-white flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Modal Image Container -->
+            <div class="md:w-1/2 bg-slate-950 flex items-center justify-center relative min-h-[250px] md:min-h-[450px]">
+                <img id="modalImage" src="" alt="" class="w-full h-full object-cover">
+            </div>
+
+            <!-- Modal Info Content -->
+            <div class="md:w-1/2 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span id="modalCategory" class="text-xs font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-3 py-1 rounded-full"></span>
+                        <span id="modalDate" class="text-xs font-medium text-slate-400"></span>
+                    </div>
+                    
+                    <h2 id="modalTitle" class="font-serif text-2xl font-bold text-slate-900 mb-3"></h2>
+                    <p id="modalDescription" class="text-slate-600 text-sm leading-relaxed mb-6"></p>
+
+                    <div id="modalTags" class="flex flex-wrap gap-2 mb-6">
+                        <!-- Dynamic Tags -->
+                    </div>
+                </div>
+
+                <!-- Interaction Actions -->
+                <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button id="likeBtn" onclick="toggleModalLike()" class="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 text-slate-700 font-medium text-sm hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition">
+                        <i id="likeIcon" class="fa-regular fa-heart"></i>
+                        <span id="likeCount">0</span> Likes
+                    </button>
+                    <button onclick="copyPinLink()" class="px-5 py-2 bg-slate-900 hover:bg-brand-600 text-white text-sm font-semibold rounded-full transition flex items-center gap-2">
+                        <i class="fa-solid fa-share-nodes"></i> Share Pin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STUDENT PORTAL LOGIN MODAL -->
+    <div id="portalModal" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="closePortalModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-slate-900">Student Portal Login</h3>
+                <p class="text-xs text-slate-500 mt-1">Access LMS, attendance, and exam schedules</p>
+            </div>
+
+            <form onsubmit="handlePortalLogin(event)" class="space-y-4">
+                <div>
+                    <label class="text-xs font-semibold uppercase text-slate-500 block mb-1">Student ID / Roll No</label>
+                    <input type="text" required placeholder="e.g. KIPS-1082" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold uppercase text-slate-500 block mb-1">Password</label>
+                    <input type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl transition text-sm shadow-md">
+                    Log In to Portal
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT & DYNAMIC DATA -->
+    <script>
+        // Data Store for Pinterest-like Pins
+        const pinsData = [
+            {
+                id: 'pin-1',
+                category: 'announcement',
+                title: 'Annual Sports Gala 2026 Announced!',
+                description: 'Get ready for the most anticipated sports event of the year! Competitions will include athletics, football, cricket, and table tennis. Registration opens next Monday.',
+                image: 'https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=800&q=80',
+                date: 'May 12, 2026',
+                likes: 142,
+                tags: ['#SportsGala', '#KIPS2026', '#Athletics']
+            },
+            {
+                id: 'pin-2',
+                category: 'results',
+                title: 'High Achievers - Board Exam Top Performers',
+                description: 'Heartiest congratulations to our top scoring students in the Matric and F.Sc pre-engineering exams! Over 85% of our students achieved A+ grades.',
+                image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80',
+                date: 'May 10, 2026',
+                likes: 389,
+                tags: ['#Excellence', '#BoardResults', '#KIPSHeroes']
+            },
+            {
+                id: 'pin-3',
+                category: 'highlights',
+                title: 'State-of-the-Art Science & AI Robotics Lab',
+                description: 'Take a peek inside our newly upgraded STEM & Robotics lab where students learn hands-on physics experiments, coding, and micro-controller programming.',
+                image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
+                date: 'May 08, 2026',
+                likes: 215,
+                tags: ['#STEM', '#RoboticsLab', '#FutureTech']
+            },
+            {
+                id: 'pin-4',
+                category: 'event',
+                title: 'Inter-School Science Fair Showcase',
+                description: 'Students presenting creative solutions for renewable energy and environmental sustainability at our campus fair.',
+                image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80',
+                date: 'Apr 28, 2026',
+                likes: 98,
+                tags: ['#ScienceFair', '#Innovation', '#GreenEnergy']
+            },
+            {
+                id: 'pin-5',
+                category: 'notice',
+                title: 'Summer Vacation Schedule & Homework Guidelines',
+                description: 'Important details regarding the summer vacation dates, digital assignment submission portal, and library reading challenge.',
+                image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=800&q=80',
+                date: 'May 01, 2026',
+                likes: 67,
+                tags: ['#Notice', '#SummerBreak', '#Holidays']
+            },
+            {
+                id: 'pin-6',
+                category: 'highlights',
+                title: 'Campus Art & Photography Exhibition',
+                description: 'A glimpse into the stunning visual artwork crafted by our fine arts department students during aesthetic week.',
+                image: 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=800&q=80',
+                date: 'Apr 20, 2026',
+                likes: 180,
+                tags: ['#KIPSArt', '#Creativity', '#Gallery']
+            },
+            {
+                id: 'pin-7',
+                category: 'announcement',
+                title: 'Parent-Teacher Conference (PTC) Next Saturday',
+                description: 'Parents are requested to meet respective class teachers to review mid-term academic progress and attendance reports.',
+                image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80',
+                date: 'May 05, 2026',
+                likes: 112,
+                tags: ['#PTC', '#ParentTeacher', '#Academics']
+            },
+            {
+                id: 'pin-8',
+                category: 'highlights',
+                title: 'Central Library & Reading Sanctuary',
+                description: 'Over 15,000 books, research papers, and quiet study pods designed to encourage a lifelong habit of reading and inquiry.',
+                image: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80',
+                date: 'Apr 15, 2026',
+                likes: 245,
+                tags: ['#Library', '#KnowledgeHub', '#Books']
+            }
+        ];
+
+        // Sample Mock Results Data for Roll Lookup
+        const mockResults = {
+            'KIPS-1082': { name: 'Muhammad Ali', class: 'Grade 10 - Section A', gpa: '3.95 (A+)', percentage: '94.2%', status: 'Passed (Distinction)' },
+            'KIPS-2045': { name: 'Ayesha Khan', class: 'Grade 12 - Pre-Medical', gpa: '4.00 (A+)', percentage: '96.8%', status: 'Passed (Top Rank)' },
+            'KIPS-3090': { name: 'Zain Ahmed', class: 'Grade 9 - Section B', gpa: '3.60 (A)', percentage: '82.5%', status: 'Passed' }
+        };
+
+        let currentCategory = 'all';
+        let currentActivePin = null;
+
+        // Initialize Page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMasonryGrid(pinsData);
+            setupSearchListeners();
+            setupFilterBar();
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+
+        // Render Masonry Grid
+        function renderMasonryGrid(items) {
+            const container = document.getElementById('masonryContainer');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-16 text-center text-slate-400">
+                        <i class="fa-solid fa-folder-open text-4xl mb-3"></i>
+                        <p class="text-base font-medium">No updates or pins found matching your query.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            items.forEach(pin => {
+                const card = document.createElement('div');
+                card.className = 'masonry-item pin-card bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm cursor-pointer group relative';
+                card.onclick = () => openPinModal(pin.id);
+
+                card.innerHTML = `
+                    <div class="relative overflow-hidden bg-slate-100">
+                        <img src="${pin.image}" alt="${pin.title}" class="w-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        
+                        <!-- Top Category Tag Overlay -->
+                        <div class="absolute top-3 left-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md bg-slate-900/70 text-white border border-white/20">
+                                ${pin.category}
+                            </span>
+                        </div>
+
+                        <!-- Hover Overlay button -->
+                        <div class="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="px-4 py-2 bg-white text-slate-900 text-xs font-bold rounded-full shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                                <i class="fa-solid fa-expand mr-1"></i> Expand View
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 sm:p-5">
+                        <h3 class="font-bold text-slate-900 text-base mb-1.5 line-clamp-2 group-hover:text-brand-600 transition">
+                            ${pin.title}
+                        </h3>
+                        <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-4">
+                            ${pin.description}
+                        </p>
+
+                        <div class="flex items-center justify-between text-xs text-slate-400 pt-3 border-t border-slate-100">
+                            <span><i class="fa-regular fa-clock mr-1"></i> ${pin.date}</span>
+                            <span class="flex items-center gap-1 text-rose-500 font-medium">
+                                <i class="fa-solid fa-heart"></i> ${pin.likes}
+                            </span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Category Filter Setup
+        function setupFilterBar() {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    buttons.forEach(b => {
+                        b.classList.remove('active-filter', 'bg-slate-900', 'text-white');
+                        b.classList.add('bg-white', 'text-slate-600');
+                    });
+                    
+                    const selected = btn.getAttribute('data-category');
+                    currentCategory = selected;
+                    
+                    btn.classList.add('active-filter', 'bg-slate-900', 'text-white');
+                    btn.classList.remove('bg-white', 'text-slate-600');
+
+                    filterAndRender();
+                });
+            });
+        }
+
+        // Filter and Search Handler
+        function filterAndRender() {
+            const query = (document.getElementById('searchInput').value || document.getElementById('mobileSearchInput').value || '').toLowerCase();
+            
+            const filtered = pinsData.filter(pin => {
+                const matchesCategory = (currentCategory === 'all' || pin.category === currentCategory);
+                const matchesQuery = pin.title.toLowerCase().includes(query) || 
+                                     pin.description.toLowerCase().includes(query) ||
+                                     pin.tags.some(t => t.toLowerCase().includes(query));
+                return matchesCategory && matchesQuery;
+            });
+
+            renderMasonryGrid(filtered);
+        }
+
+        function setupSearchListeners() {
+            const deskInput = document.getElementById('searchInput');
+            const mobInput = document.getElementById('mobileSearchInput');
+
+            deskInput.addEventListener('input', (e) => {
+                mobInput.value = e.target.value;
+                filterAndRender();
+            });
+            mobInput.addEventListener('input', (e) => {
+                deskInput.value = e.target.value;
+                filterAndRender();
+            });
+        }
+
+        // Open Lightbox Pin Modal
+        function openPinModal(pinId) {
+            const pin = pinsData.find(p => p.id === pinId);
+            if (!pin) return;
+
+            currentActivePin = pin;
+
+            document.getElementById('modalImage').src = pin.image;
+            document.getElementById('modalTitle').textContent = pin.title;
+            document.getElementById('modalDescription').textContent = pin.description;
+            document.getElementById('modalCategory').textContent = pin.category;
+            document.getElementById('modalDate').textContent = pin.date;
+            document.getElementById('likeCount').textContent = pin.likes;
+
+            const tagsContainer = document.getElementById('modalTags');
+            tagsContainer.innerHTML = pin.tags.map(t => `<span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full font-medium">${t}</span>`).join('');
+
+            document.getElementById('pinModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePinModal() {
+            document.getElementById('pinModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function toggleModalLike() {
+            if (!currentActivePin) return;
+            const likeIcon = document.getElementById('likeIcon');
+            const likeCount = document.getElementById('likeCount');
+            
+            if (likeIcon.classList.contains('fa-regular')) {
+                likeIcon.classList.remove('fa-regular');
+                likeIcon.classList.add('fa-solid', 'text-rose-500');
+                currentActivePin.likes += 1;
+            } else {
+                likeIcon.classList.remove('fa-solid', 'text-rose-500');
+                likeIcon.classList.add('fa-regular');
+                currentActivePin.likes -= 1;
+            }
+            likeCount.textContent = currentActivePin.likes;
+            filterAndRender();
+        }
+
+        function copyPinLink() {
+            const dummyLink = window.location.href.split('#')[0] + '#' + currentActivePin.id;
+            navigator.clipboard.writeText(dummyLink).then(() => {
+                showToast("Pin link copied to clipboard!");
+            }).catch(() => {
+                showToast("Link saved!");
+            });
+        }
+
+        // Results Search Handler
+        function handleResultSearch(e) {
+            e.preventDefault();
+            const rollInput = document.getElementById('rollNumberInput').value.trim().toUpperCase();
+            const output = document.getElementById('resultOutput');
+            output.classList.remove('hidden');
+
+            const record = mockResults[rollInput];
+
+            if (record) {
+                output.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-3">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-lg">${record.name}</h4>
+                            <p class="text-xs text-slate-500">${record.class} | Roll: <span class="font-mono text-slate-800">${rollInput}</span></p>
+                        </div>
+                        <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">${record.status}</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-white p-3 rounded-xl border border-slate-200">
+                            <span class="text-xs text-slate-400 block">Grade Point Average</span>
+                            <span class="font-bold text-slate-900 text-base">${record.gpa}</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl border border-slate-200">
+                            <span class="text-xs text-slate-400 block">Marks Percentage</span>
+                            <span class="font-bold text-brand-600 text-base">${record.percentage}</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl border border-slate-200 col-span-2 sm:col-span-1">
+                            <span class="text-xs text-slate-400 block">Term Status</span>
+                            <span class="font-bold text-slate-800 text-base">Verified <i class="fa-solid fa-circle-check text-emerald-500"></i></span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                output.innerHTML = `
+                    <div class="text-center py-4">
+                        <i class="fa-solid fa-circle-exclamation text-amber-500 text-3xl mb-2"></i>
+                        <h4 class="font-bold text-slate-800 text-sm">No Record Found for "${rollInput}"</h4>
+                        <p class="text-xs text-slate-500 mt-1">Please try sample roll numbers like: <strong>KIPS-1082</strong>, <strong>KIPS-2045</strong>, or <strong>KIPS-3090</strong>.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Contact Form Submit Handler
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            showToast("Message sent successfully! Our administration will contact you shortly.");
+            e.target.reset();
+        }
+
+        // Student Portal Login Modal
+        function openPortalModal() {
+            document.getElementById('portalModal').classList.remove('hidden');
+        }
+
+        function closePortalModal() {
+            document.getElementById('portalModal').classList.add('hidden');
+        }
+
+        function handlePortalLogin(e) {
+            e.preventDefault();
+            closePortalModal();
+            showToast("Welcome to KIPS Portal! Redirecting...");
+        }
+
+        // Utility Notification Toast
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl text-sm font-medium flex items-center gap-2 animate-bounce';
+            toast.innerHTML = `<i class="fa-solid fa-circle-info text-brand-400"></i> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3500);
+        }
+    </script>
+</body>
+</html>
